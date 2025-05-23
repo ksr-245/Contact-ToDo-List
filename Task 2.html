@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Project - Contact & To-Do App</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url("img.jpeg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #333;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      color: #bce4e2;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    #datetime {
+      font-size: 1.1rem;
+    }
+
+    .heading-section {
+      background: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 1.1rem;
+      width: 100%;
+      max-width: 1400px;
+      margin: 1.5rem auto;
+      border-radius: 12px;
+    }
+
+    .heading-section h1 {
+      margin: 1rem 0;
+      font-size: 2rem;
+    }
+
+    .heading-section {
+  background: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 1rem auto;
+  border-radius: 12px;
+}
+
+main.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1000px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  main.container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+
+    @media (max-width: 768px) {
+      main.container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact-form,
+    .todo {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow: auto;
+      font-size: 1rem;
+    }
+
+    .contact-form h2,
+    .todo h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 0.7rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .todo input[type="text"] {
+      width: 70%;
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 1rem;
+      padding-left: 0;
+    }
+
+    li {
+      background: #f9f9f9;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid #007bff;
+      font-size: 1rem;
+    }
+
+    li span {
+      flex-grow: 1;
+      margin-right: 0.5rem;
+    }
+
+    li button {
+      margin-left: 0.3rem;
+      background: #007bff;
+    }
+
+    li button.delete {
+      background: red;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div id="datetime"></div>
+    <div><strong>FormFlow</strong></div>
+  </header>
+  <section class="heading-section">
+    <h1>Welcome to My Project</h1>
+    <p>Here you can contact us or manage your tasks with our simple To-Do List.</p>
+    <div class="quote" id="quote"></div>
+  </section>
+  <main class="container">
+    <section class="contact-form" aria-labelledby="contact-form-title">
+      <h2 id="contact-form-title">Contact Us</h2>
+      <form id="contactForm">
+        <label for="name">Name *</label>
+        <input type="text" id="name" name="name" required />
+        <div class="error" id="nameError"></div>
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required />
+        <div class="error" id="emailError"></div>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+
+        <button type="submit">Submit</button>
+        <div id="successMessage" class="success" style="display:none;"></div>
+      </form>
+    </section>
+
+    <section class="todo" aria-labelledby="todo-list-title">
+      <h2 id="todo-list-title">To-Do List</h2>
+      <input type="text" id="todoInput" placeholder="Add new task..." />
+      <button onclick="addTask()">Add</button>
+      <ul id="todoList"></ul>
+    </section>
+  </main>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        weekday: 'long', year: 'numeric', month: 'long',
+        day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+      };
+      document.getElementById('datetime').textContent = now.toLocaleString(undefined, options);
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    const quotes = [
+      "The best way to get started is to quit talking and begin doing. — Walt Disney",
+      "Success is not in what you have, but who you are. — Bo Bennett",
+      "Don’t watch the clock; do what it does. Keep going. — Sam Levenson",
+      "Keep your face always toward the sunshine—and shadows will fall behind you. — Walt Whitman",
+      "Your time is limited, so don’t waste it living someone else’s life. — Steve Jobs"
+    ];
+    document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('nameError').textContent = '';
+      document.getElementById('emailError').textContent = '';
+      document.getElementById('successMessage').style.display = 'none';
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      let isValid = true;
+
+      const nameRegex = /^[A-Za-z\s]+$/;
+      if (name === '') {
+        document.getElementById('nameError').textContent = 'Name is required.';
+        isValid = false;
+      } else if (!nameRegex.test(name)) {
+        document.getElementById('nameError').textContent = 'Name can only contain alphabets and spaces.';
+        isValid = false;
+      }
+
+      if (email === '' || !/^\S+@\S+\.\S+$/.test(email)) {
+        document.getElementById('emailError').textContent = 'Enter a valid email.';
+        isValid = false;
+      }
+
+      if (isValid) {
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('successMessage').textContent = 'Form submitted successfully!';
+        document.getElementById('contactForm').reset();
+      }
+    });
+
+    document.getElementById('name').addEventListener('input', function() {
+      const nameInput = this.value;
+      const nameRegex = /^[A-Za-z\s]*$/;
+
+      if (!nameRegex.test(nameInput)) {
+        document.getElementById('nameError').textContent = 'Only alphabets and spaces are allowed.';
+      } else {
+        document.getElementById('nameError').textContent = '';
+      }
+    });
+
+    function createTaskElement(taskText) {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = taskText;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.className = 'delete';
+      deleteBtn.onclick = function() {
+        li.remove();
+        saveTasks();
+      };
+
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.onclick = function() {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = span.textContent;
+        li.replaceChild(input, span);
+        editBtn.textContent = 'Save';
+        editBtn.onclick = function () {
+          span.textContent = input.value;
+          li.replaceChild(span, input);
+          editBtn.textContent = 'Edit';
+          editBtn.onclick = arguments.callee;
+          saveTasks();
+        };
+      };
+
+      li.appendChild(span);
+      li.appendChild(editBtn);
+      li.appendChild(deleteBtn);
+      return li;
+    }
+
+    function addTask() {
+      const input = document.getElementById('todoInput');
+      const task = input.value.trim();
+      if (task === '') return;
+      const li = createTaskElement(task);
+      document.getElementById('todoList').appendChild(li);
+      input.value = '';
+      saveTasks();
+    }
+
+    function saveTasks() {
+      const tasks = Array.from(document.querySelectorAll('#todoList li span')).map(span => span.textContent);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    window.onload = function() {
+      const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      savedTasks.forEach(task => {
+        const li = createTaskElement(task);
+        document.getElementById('todoList').appendChild(li);
+      });
+
+      document.getElementById('todoInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addTask();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
